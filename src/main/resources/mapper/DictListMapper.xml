@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.DictListMapper">
+    <!-- 结果集 -->
+    <resultMap type="com.entity.DictList" id="DictListMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="type" column="TYPE" jdbcType="VARCHAR"/>
+        <result property="deptId" column="DEPT_ID" jdbcType="VARCHAR"/>
+        <result property="code" column="CODE" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="abbreviation" column="ABBREVIATION" jdbcType="VARCHAR"/>
+        <result property="pinyinCode" column="PINYIN_CODE" jdbcType="VARCHAR"/>
+        <result property="wbCode" column="WB_CODE" jdbcType="VARCHAR"/>
+        <result property="unit" column="UNIT" jdbcType="VARCHAR"/>
+        <result property="enabled" column="ENABLED" jdbcType="INTEGER"/>
+        <result property="color" column="COLOR" jdbcType="VARCHAR"/>
+        <result property="sortNo" column="SORT_NO" jdbcType="INTEGER"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="createMan" column="CREATE_MAN" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="updateMan" column="UPDATE_MAN" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+    <!-- 基本字段 -->
+    <sql id="Base_Column_List">
+        ID, TYPE, DEPT_ID, CODE, NAME, ABBREVIATION, PINYIN_CODE, WB_CODE, UNIT, ENABLED, COLOR, SORT_NO, REMARK, CREATE_MAN, CREATE_TIME, UPDATE_MAN, UPDATE_TIME    </sql>
+
+    <select id="selectListByDictTypeAndEnabled"  resultMap="DictListMap">
+        select
+        <include refid="Base_Column_List"/>
+        from DICT_LIST
+        where
+        TYPE = #{type,jdbcType=VARCHAR}
+        and ENABLED = #{enabled,jdbcType=NUMERIC}
+        order by SORT_NO
+    </select>
+
+    <select id="selectAllDictListByDictType"  resultMap="DictListMap">
+        select
+        <include refid="Base_Column_List"/>
+        from DICT_LIST
+        where
+        TYPE = #{type,jdbcType=VARCHAR}
+        order by SORT_NO
+    </select>
+
+    <select id="countByTypeAndCode" resultType="int">
+        select count(*)
+         from dict_list
+        where
+        TYPE = #{type,jdbcType=VARCHAR}
+         AND CODE = #{code,jdbcType=VARCHAR}
+    </select>
+    <update id="updateEnabledById">
+update dict_list
+ set ENABLED = #{enabled}
+where
+ID = #{id,jdbcType=VARCHAR}
+</update>
+</mapper>

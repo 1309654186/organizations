@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.BaseRoomMapper">
+    <!-- 结果集 -->
+    <resultMap type="com.entity.BaseRoom" id="BaseRoomMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="deptId" column="DEPT_ID" jdbcType="VARCHAR"/>
+        <result property="sortNo" column="SORT_NO" jdbcType="INTEGER"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="pinyinCode" column="PINYIN_CODE" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="createMan" column="CREATE_MAN" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="updateMan" column="UPDATE_MAN" jdbcType="VARCHAR"/>
+        <result property="roomX" column="ROOM_X" jdbcType="INTEGER"/>
+        <result property="roomY" column="ROOM_Y" jdbcType="INTEGER"/>
+        <result property="flag" column="FLAG" jdbcType="VARCHAR"/>
+        <result property="enabled" column="ENABLED" jdbcType="INTEGER"/>
+    </resultMap>
+    
+    <!-- 基本字段 -->
+    <sql id="Base_Column_List">
+        ID, NAME, DEPT_ID, SORT_NO, REMARK, PINYIN_CODE, CREATE_TIME, CREATE_MAN, UPDATE_TIME, UPDATE_MAN, ROOM_X, ROOM_Y, FLAG, ENABLED    </sql>
+
+    <select id="selectByDeptIdAndEnabled"  resultMap="BaseRoomMap">
+        select
+        <include refid="Base_Column_List"/>
+        from BASE_ROOM
+        where
+        DEPT_ID = #{deptId,jdbcType=VARCHAR}
+        and ENABLED = #{enabled,jdbcType=NUMERIC}
+        order by SORT_NO
+    </select>
+
+    <update id="updateEnabledById">
+        update BASE_ROOM
+         set ENABLED = #{enabled,jdbcType=BOOLEAN}
+        where
+        ID = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>
